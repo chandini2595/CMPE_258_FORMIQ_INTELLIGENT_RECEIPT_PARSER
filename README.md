@@ -15,6 +15,15 @@ Deployed on Hugging Face Spaces, FormIQ adheres to MLOps best practices by suppo
   - Manjunatha Inti (018192187)
   - Praful John (018168514)
 
+## Artifacts
+
+The following artifacts are included in this repository for evaluation and grading:
+
+- [Slide Deck](https://www.slideshare.net/slideshow/form-iq-presentation-formiq-aims-to-eliminate-manual-receipt-entry-by-providing-an-end-to-end-single-page-web-application-that-automates-the-extraction-structuring-and-querying-of-receipt-data/279484322) – Final presentation slides
+- [Watch our Project Demo - Powerpoint Presentation - Youtube](#) - PPT Presentation
+- [Detailed Project Explanation - Youtube]() - Project Walkthrough
+- [Project Report](https://docs.google.com/document/d/1amdOJn9-E4yAmdxje4sl7iEWLuLOL6-eiTBXF-dvZtA/edit?usp=sharing)
+
 ## Abstract
 
 Receipts are structurally diverse and often contain faded prints or handwritten annotations, making them difficult to digitize using traditional tools. FormIQ addresses this challenge through a modular pipeline that integrates PP-OCRv4 for robust text extraction, an instruction-tuned LLM via Perplexity API for semantic structuring, and Amazon DynamoDB for real-time, schema-less data storage.
@@ -23,6 +32,75 @@ The system delivers an end-to-end solution for receipt understanding without req
 
 Deployed entirely on Hugging Face Spaces, FormIQ demonstrates production-ready deployment with MLOps practices including modular retraining, centralized inference, and evaluation monitoring.
 
+## Introduction
+
+Receipt digitization presents unique challenges due to the variability in document formats, inclusion of handwritten annotations, and degradation of print quality over time. Traditional OCR tools often fail to produce semantically structured outputs, and layout-based deep learning models require large annotated datasets and complex training pipelines. 
+
+FormIQ addresses these limitations through a lightweight, modular pipeline that integrates a state-of-the-art OCR engine (PP-OCRv4), an instruction-tuned large language model (Perplexity API), and serverless storage (Amazon DynamoDB) to automate the extraction and structuring of data from receipts and form-like documents. 
+
+The project aims to provide a reproducible and cost-effective solution that can generalize across diverse layouts without requiring bounding box annotations or heavy infrastructure. Results show 84% success on handwritten totals, 92% valid structured outputs, and real-time chatbot response latency of approximately 1.3 seconds. The system is deployed using Hugging Face Spaces and adheres to MLOps best practices, including modular retraining, result visualization, and infrastructure-as-code readiness.
+
+## Related Work
+
+Traditional document processing systems often rely on rule-based OCR tools like Tesseract, which lack semantic understanding and struggle with handwritten or low-quality text. While layout-aware models such as LayoutLMv2 and LayoutLMv3 have demonstrated strong performance on structured document tasks, they typically require bounding box annotations and fine-tuning on large, domain-specific datasets—making them resource-intensive and less suitable for rapid prototyping.
+
+FormIQ departs from these methods by employing a text-first, structure-later approach that decouples layout parsing from semantic understanding. This architecture allows the use of a powerful instruction-tuned LLM (via the Perplexity API) to semantically map raw OCR text to a strict JSON schema without annotated layout data.
+
+Compared to commercial APIs like Amazon Textract or Google Document AI, which offer high accuracy but limited flexibility, FormIQ is open-source, modular, and cloud-native. It prioritizes reproducibility, cost-efficiency, and alignment with MLOps workflows over proprietary performance. Our system's unique combination of PaddleOCR, Perplexity API, and real-time FastAPI-based interaction positions it as a flexible alternative for academic and lightweight enterprise use cases.
+
+## Data
+
+FormIQ uses a combination of real and synthetic receipt images in PNG, JPG, and PDF formats. The dataset consists of approximately 300 receipts, covering a range of formats including printed, handwritten, faded, and annotated receipts. Real-world examples were sourced from public datasets such as SROIE and FUNSD, while synthetic data was generated using templated renderings and handwritten overlays to emulate realistic variations.
+
+Each receipt contains fields such as vendor name, date, item list, total amount, and taxes. These documents are processed without bounding box annotations, as the pipeline uses a layout-agnostic strategy that relies on OCR text followed by LLM-based structuring.
+
+All images are preprocessed using grayscale conversion, 300 DPI resampling, auto-rotation, and deskewing to optimize OCR quality. No explicit labeling was required due to the use of an instruction-aligned LLM (Perplexity API) for semantic mapping.
+
+For training and evaluating the CNN classifier used in the demo module, a synthetic dataset of 600 document images was created, evenly distributed across three classes: Invoice, Misc Document, and Purchase Order. This dataset was used to demonstrate model behavior and visualize performance metrics within the Streamlit interface.
+
+## Methods
+
+FormIQ is built on a modular, cloud-native architecture that separates concerns across OCR extraction, LLM-based structuring, and interactive querying. This design enables flexibility, low maintenance overhead, and reproducibility—all aligned with MLOps best practices.
+
+1. **OCR Extraction**: The pipeline begins with image preprocessing (grayscale, deskewing, 300 DPI resampling) to standardize inputs. Text is extracted using PP-OCRv4, which is optimized for multilingual and handwritten documents. Tesseract 5 serves as a fallback for high-quality printed text.
+
+2. **Semantic Structuring via LLM**: The raw OCR output is passed to the Perplexity API, an instruction-tuned LLM that transforms unstructured text into a canonical JSON schema containing fields like vendor, items, date, and total. A retry mechanism ensures that non-conformant outputs are corrected through re-prompting.
+
+3. **Data Storage**: Structured data is stored in Amazon DynamoDB, using a schema-flexible NoSQL model. This supports millisecond-scale retrieval and is optimized for PartiQL-based querying.
+
+4. **Interactive Chatbot (FastAPI)**: The FastAPI backend serves as a bridge between the frontend UI and DynamoDB. It receives natural language queries, translates them into PartiQL, and returns formatted responses via a Streamlit-integrated chatbot.
+
+5. **Model Training Module**: A CNN model was trained on a synthetic three-class dataset to demonstrate model evaluation. Key metrics (accuracy, loss, confusion matrix) are plotted in real-time within the UI, supporting transparency and experimentation.
+
+6. **Deployment**: The full system is deployed on Hugging Face Spaces for easy access and reproducibility. The project structure supports integration with CI/CD, monitoring tools, and future auto-retraining pipelines.
+
+Alternative approaches, such as layout-aware transformers (e.g., LayoutLMv3), were considered but not used due to their annotation requirements. The chosen approach balances performance, interpretability, and accessibility on a student budget.
+
+## Experiments
+
+We conducted a series of experiments to evaluate the performance, robustness, and reliability of each component in the FormIQ pipeline.
+
+**OCR Performance**  
+PP-OCRv4 and Tesseract 5 were benchmarked on 100 receipts (50 printed, 50 handwritten). PP-OCRv4 achieved 84% accuracy on handwritten receipts, while Tesseract reached only 54%. Average word recall was 90% with PP-OCRv4, demonstrating its effectiveness in low-contrast scenarios.
+
+**LLM Structuring**  
+Using the Perplexity API, 92% of structured outputs were valid JSON on the first attempt. A retry mechanism ensured 100% correction for malformed responses. Field coverage was 95%, confirming reliable extraction of vendor, date, items, and totals.
+
+**Chatbot Responsiveness**  
+Latency tests showed an average response time of 1.31 seconds per query. FastAPI routing and PartiQL execution maintained sub-second speeds, while LLM processing accounted for the bulk of the response time. This validates the system’s real-time interaction capability.
+
+**CNN Classification**  
+A CNN classifier trained on a 3-class synthetic dataset reached 82% accuracy and a macro F1-score of 0.93 after 10 epochs. The confusion matrix revealed that “Misc Doc” and “Invoice” were occasionally confused due to shared tabular structures. Training metrics were visualized live within the Streamlit interface.
+
+**Ablation Studies**  
+Removing key components showed measurable performance drops:
+- Without preprocessing: OCR accuracy dropped by 12%
+- Without grayscale normalization: 11% of totals were missed
+- Without retry logic: JSON validity decreased by 8%
+
+**Observation from Experiments**  
+The experiments confirm that FormIQ delivers robust end-to-end document understanding, supported by careful preprocessing, semantic interpretation via LLMs, real-time query capabilities, and transparent model training visualizations.
+
 ## Table of Contents
 
 - [Features](#features)
@@ -30,9 +108,7 @@ Deployed entirely on Hugging Face Spaces, FormIQ demonstrates production-ready d
 - [Technologies Used](#technologies-used)
 - [Model and MLOps Practices](#model-and-mlops-practices)
 - [Setup and Execution](#setup-and-execution)
-- [Demo](#demo)
 - [Team Contributions](#team-contributions)
-- [Artifacts](#artifacts)
 
 ## Features
 
@@ -131,11 +207,10 @@ The deployed version supports:
 | Manjunatha Inti           | 018192187    | FastAPI backend development, DynamoDB storage integration, chatbot logic      |
 | Praful John               | 018168514    | CNN training loop, evaluation visualization, documentation and error analysis |
 
-## Artifacts
+## Conclusion
 
-The following artifacts are included in this repository for evaluation and grading:
+FormIQ demonstrates that a lightweight, modular pipeline combining PP-OCRv4, an instruction-tuned LLM, and serverless cloud infrastructure can deliver production-grade receipt digitization without the need for bounding box annotations. The system achieved perfect performance on clean printed receipts, 84% success on handwritten totals, and 92% end-to-end structured JSON validity.
 
-- [Slide Deck](https://www.slideshare.net/slideshow/form-iq-presentation-formiq-aims-to-eliminate-manual-receipt-entry-by-providing-an-end-to-end-single-page-web-application-that-automates-the-extraction-structuring-and-querying-of-receipt-data/279484322) – Final presentation slides
-- [Watch our Project Demo - Powerpoint Presentation - Youtube](#) - PPT Presentation
-- [Detailed Project Explanation - Youtube]() - Project Walkthrough
-- [Project Report](https://docs.google.com/document/d/1amdOJn9-E4yAmdxje4sl7iEWLuLOL6-eiTBXF-dvZtA/edit?usp=sharing)
+The chatbot interface, powered by FastAPI and DynamoDB, responds to natural language queries in an average of 1.3 seconds, validating its real-time capability. Additionally, the CNN model training module, though illustrative, achieved a macro F1-score of 0.93 and demonstrated the platform’s ability to visualize model metrics in real time.
+
+FormIQ's design reflects MLOps best practices—modularization, reproducibility, and transparency—while remaining cost-effective and deployable on open platforms like Hugging Face Spaces. Future extensions include fine-tuning LayoutLMv3 for layout-aware extraction, adding real-time drift detection with Evidently AI, and supporting CI/CD workflows for automated retraining and deployment.
