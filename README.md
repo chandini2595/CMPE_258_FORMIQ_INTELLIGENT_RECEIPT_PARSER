@@ -33,8 +33,6 @@ Deployed entirely on Hugging Face Spaces, FormIQ demonstrates production-ready d
 - [Demo](#demo)
 - [Team Contributions](#team-contributions)
 - [Artifacts](#artifacts)
-- [License](#license)
-- [Notes for Evaluators](#notes-for-evaluators)
 
 ## Features
 
