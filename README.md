@@ -105,13 +105,13 @@ Follow the steps below to run FormIQ locally:
 4. **Run the application**
    ```
    streamlit run app.py
-## Demo
+## MLOps Deployment
 
 FormIQ is publicly deployed on Hugging Face Spaces.
 
 You can access the live demo at the following URL:
 
-[Access the Live App](https://huggingface.co/spaces/your-username/formiq)
+[Access the Live App](https://huggingface.co/spaces/chandinisaisri/formiq)
 
 The deployed version supports:
 - Document upload and OCR processing
