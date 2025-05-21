@@ -7,7 +7,8 @@ Deployed on Hugging Face Spaces, FormIQ adheres to MLOps best practices by suppo
 ## Project Information
 
 - **Title**: FormIQ – Intelligent Receipt QA System
-- **Course**: MLOps Final Project – San Jose State University
+- **Course**: CMPE 258 - Deep Learning
+- **Project Type**: MLOps Project
 - **Team Members**:
   - Apurva Karne (018221801)
   - Chandini Saisri Uppuganti (018228483)
