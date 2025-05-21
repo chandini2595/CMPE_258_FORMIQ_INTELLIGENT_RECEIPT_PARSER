@@ -101,7 +101,11 @@ Follow the steps below to run FormIQ locally:
    pip install -r requirements.txt
 3. **Set up environment variables**
    ```
-   PERPLEXITY_API_KEY=your_api_key_here
+   AWS_ACCESS_KEY_ID=YOUR_AWS_SECRET_ACCESS_KEY
+   AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
+   AWS_DEFAULT_REGION=YOUR_AWS_DEFAULT_REGION
+   PERPLEXITY_API_KEY=YOUR_PERPLEXITY_API_KEY
+   
 4. **Run the application**
    ```
    streamlit run app.py
