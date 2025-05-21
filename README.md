@@ -136,6 +136,6 @@ The deployed version supports:
 The following artifacts are included in this repository for evaluation and grading:
 
 - [Slide Deck](https://www.slideshare.net/slideshow/form-iq-presentation-formiq-aims-to-eliminate-manual-receipt-entry-by-providing-an-end-to-end-single-page-web-application-that-automates-the-extraction-structuring-and-querying-of-receipt-data/279484322) – Final presentation slides
-- [Watch our Project Demo - Powerpoint Presentation - Youtube]() - PPT Presentation
+- [Watch our Project Demo - Powerpoint Presentation - Youtube](#) - PPT Presentation
 - [Detailed Project Explanation - Youtube]() - Project Walkthrough
 - [Project Report](https://docs.google.com/document/d/1amdOJn9-E4yAmdxje4sl7iEWLuLOL6-eiTBXF-dvZtA/edit?usp=sharing)
