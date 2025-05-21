@@ -40,6 +40,10 @@ FormIQ addresses these limitations through a lightweight, modular pipeline that 
 
 The project aims to provide a reproducible and cost-effective solution that can generalize across diverse layouts without requiring bounding box annotations or heavy infrastructure. Results show 84% success on handwritten totals, 92% valid structured outputs, and real-time chatbot response latency of approximately 1.3 seconds. The system is deployed using Hugging Face Spaces and adheres to MLOps best practices, including modular retraining, result visualization, and infrastructure-as-code readiness.
 
+## Project UI
+
+<img width="1510" alt="image" src="https://github.com/user-attachments/assets/b6e40289-9194-4b63-9be7-9b817f9bb23b" />
+
 ## Related Work
 
 Traditional document processing systems often rely on rule-based OCR tools like Tesseract, which lack semantic understanding and struggle with handwritten or low-quality text. While layout-aware models such as LayoutLMv2 and LayoutLMv3 have demonstrated strong performance on structured document tasks, they typically require bounding box annotations and fine-tuning on large, domain-specific datasets—making them resource-intensive and less suitable for rapid prototyping.
