@@ -21,7 +21,7 @@ The following artifacts are included in this repository for evaluation and gradi
 
 - [Slide Deck](https://www.slideshare.net/slideshow/form-iq-presentation-formiq-aims-to-eliminate-manual-receipt-entry-by-providing-an-end-to-end-single-page-web-application-that-automates-the-extraction-structuring-and-querying-of-receipt-data/279484322) – Final presentation slides
 - [Watch our Project Demo - Powerpoint Presentation - Youtube](https://youtu.be/6bZ7JEVwXpI) - PPT Presentation
-- [Detailed Project Explanation - Youtube]() - Project Walkthrough
+- [Detailed Project Explanation - Youtube](https://youtu.be/Ee501pAIKMU) - Project Walkthrough
 - [Project Report](https://docs.google.com/document/d/1amdOJn9-E4yAmdxje4sl7iEWLuLOL6-eiTBXF-dvZtA/edit?usp=sharing)
 - [Supplementary Technical Report](https://docs.google.com/document/d/1E8qpS5E-u84nRh99gH04cKnRa7OUBX4smsCOAMIjVN0/edit?usp=sharing)
 
